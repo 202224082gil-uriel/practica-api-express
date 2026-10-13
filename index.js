@@ -6,10 +6,12 @@ require('./config/db');
 
 const productosRoutes = require('./routes/productos');
 
+const cors = require('cors');   // ← NUEVA LÍNEA 1
+
 const app = express();
 
-// Middleware para parsear JSON
-app.use(express.json());
+app.use(cors());                // ← NUEVA LÍNEA 2 (habilitar CORS)
+app.use(express.json());        // Middleware para parsear JSON
 
 // Ruta base
 app.get('/', (req, res) => {
