@@ -1,27 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
-
-// Importar conexión a la base de datos (se ejecuta al levantar)
-require('./config/db');
+require('./config/db'); 
 
 const productosRoutes = require('./routes/productos');
-
-const cors = require('cors');   // ← NUEVA LÍNEA 1
+const batchRoutes = require('./routes/batch');
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
-app.use(cors());                // ← NUEVA LÍNEA 2 (habilitar CORS)
-app.use(express.json());        // Middleware para parsear JSON
-
-// Ruta base
-app.get('/', (req, res) => {
-    res.send('🚀 Servidor en línea con base de datos conectada');
-});
-
-// Rutas de la API
 app.use('/api/productos', productosRoutes);
+app.use('/api/recursos', batchRoutes);
 
-// Levantar servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🌐 Servidor escuchando en http://localhost:${PORT}`);
